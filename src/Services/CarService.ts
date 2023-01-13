@@ -5,9 +5,7 @@ class CarService {
   constructor(private carODM: ICarODM) {}
 
   private createCarDomain(car: ICar | null): Car | null {
-    if (car) {
-      return new Car(car);
-    }
+    if (car) return new Car(car);
     return null;
   }
 
@@ -16,6 +14,21 @@ class CarService {
       return this.createCarDomain(await this.carODM.register(car));
     }
     return this.createCarDomain(await this.carODM.register({ ...car, status: false }));
+  }
+
+  public async read() {
+    const carList = await this.carODM.read();
+    return carList?.map((car) => this.createCarDomain(car));
+  }
+
+  public async readById(id: string) {
+    const validMongoId = /^[a-f\d]{24}$/i;
+    if (!validMongoId.test(id)) return false;
+
+    const carById = await this.carODM.readById(id);
+    if (!carById) return null;
+    
+    return this.createCarDomain(carById);
   }
 }
 

@@ -21,4 +21,12 @@ export default class CarModel implements ICarODM {
   public async register(car: ICar): Promise<ICar> {
     return this._model.create({ ...car });
   }
+
+  public async read(): Promise<ICar[]> {
+    return this._model.find();
+  }
+
+  public async readById(id: string): Promise<ICar | null> {
+    return this._model.findById(id);
+  }
 }
