@@ -27,8 +27,20 @@ class CarService {
 
     const carById = await this.carODM.readById(id);
     if (!carById) return null;
-    
+
     return this.createCarDomain(carById);
+  }
+
+  public async update(id: string, car: ICar) {
+    const validMongoId = /^[a-f\d]{24}$/i;
+    if (!validMongoId.test(id)) return false;
+
+    const carById = await this.carODM.readById(id);
+    if (!carById) return null;
+
+    await this.carODM.update(id, car);
+    
+    return { id, ...car };
   }
 }
 

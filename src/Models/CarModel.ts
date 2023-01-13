@@ -6,15 +6,18 @@ export default class CarModel implements ICarODM {
   private _model: Model<ICar>;
 
   constructor() {
-    this.schema = new Schema<ICar>({
-      model: { type: String, required: true },
-      year: { type: Number, required: true },
-      color: { type: String, required: true },
-      status: { type: Boolean, required: false },
-      buyValue: { type: Number, required: true },
-      doorsQty: { type: Number, required: true },
-      seatsQty: { type: Number, required: true },
-    });
+    this.schema = new Schema<ICar>(
+      {
+        model: { type: String, required: true },
+        year: { type: Number, required: true },
+        color: { type: String, required: true },
+        status: { type: Boolean, required: false },
+        buyValue: { type: Number, required: true },
+        doorsQty: { type: Number, required: true },
+        seatsQty: { type: Number, required: true },
+      }, 
+      { versionKey: false },
+    );
     this._model = models.Car || model('Car', this.schema);
   }
 
@@ -28,5 +31,9 @@ export default class CarModel implements ICarODM {
 
   public async readById(id: string): Promise<ICar | null> {
     return this._model.findById(id);
+  }
+
+  public async update(id: string, car: ICar): Promise<ICar | null> {
+    return this._model.findByIdAndUpdate(id, car);
   }
 }
