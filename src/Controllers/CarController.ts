@@ -16,7 +16,7 @@ export default class CarController {
   
   public async find() {
     try {
-      const cars = await this.service.read();
+      const cars = await this.service.findAll();
       return this.res.status(200).json(cars);
     } catch (error) {
       this.next(error);
@@ -26,7 +26,7 @@ export default class CarController {
   public async findOne() {
     try {
       const { id } = this.req.params;
-      const carById = await this.service.readById(id);
+      const carById = await this.service.findById(id);
 
       if (carById === false) return this.res.status(422).json({ message: 'Invalid mongo id' });
       if (carById === null) return this.res.status(404).json({ message: 'Car not found' });
@@ -39,7 +39,7 @@ export default class CarController {
 
   public async createOne() {
     try {
-      const newCar = await this.service.register(this.req.body);
+      const newCar = await this.service.create(this.req.body);
       return this.res.status(201).json(newCar);
     } catch (error) {
       this.next(error);

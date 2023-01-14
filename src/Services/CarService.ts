@@ -14,19 +14,19 @@ class CarService {
     return null;
   }
 
-  public async register(car: ICar) {
+  public async create(car: ICar) {
     if (car.status) {
       return this.createCarDomain(await this.carODM.create(car));
     }
     return this.createCarDomain(await this.carODM.create({ ...car, status: false }));
   }
 
-  public async read() {
+  public async findAll() {
     const carList = await this.carODM.findAll();
     return carList?.map((car) => this.createCarDomain(car));
   }
 
-  public async readById(id: string) {
+  public async findById(id: string) {
     const validMongoId = /^[a-f\d]{24}$/i;
     if (!validMongoId.test(id)) return false;
 

@@ -2,7 +2,7 @@ import IMotorcycle from '../Interfaces/IMotorcycle';
 import Vehicle from './Vehicle';
 
 export default class Motorcycle extends Vehicle {
-  private category: 'Street' | 'Custom' | 'Trail';
+  private category: string;
   private engineCapacity: number;
 
   constructor({
@@ -20,7 +20,7 @@ export default class Motorcycle extends Vehicle {
     this.engineCapacity = engineCapacity;
   }
 
-  public getCategory(): 'Street' | 'Custom' | 'Trail' {
+  public getCategory(): string {
     return this.category;
   }
 
@@ -28,7 +28,7 @@ export default class Motorcycle extends Vehicle {
     return this.engineCapacity;
   }
 
-  public setCategory(category: 'Street' | 'Custom' | 'Trail'): void {
+  public setCategory(category: string): void {
     this.category = category;
   }
 

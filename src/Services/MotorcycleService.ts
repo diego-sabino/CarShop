@@ -2,6 +2,8 @@ import Motorcycle from '../Domains/Motorcycle';
 import MotorcycleODM from '../Models/MotorcycleModel';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 
+const validMongoId = /^[a-f\d]{24}$/i;
+
 class MotorcycleService {
   motorcycleODM: MotorcycleODM;
 
@@ -13,7 +15,7 @@ class MotorcycleService {
     return null;
   }
 
-  public async register(motorcycle: IMotorcycle) {
+  public async create(motorcycle: IMotorcycle) {
     if (motorcycle.status) {
       return this.createMotorcycleDomain(await this.motorcycleODM.create(motorcycle));
     }
@@ -21,13 +23,12 @@ class MotorcycleService {
       .create({ ...motorcycle, status: false }));
   }
 
-  public async read() {
+  public async findAll() {
     const motorcycleList = await this.motorcycleODM.findAll();
     return motorcycleList?.map((motorcycle) => this.createMotorcycleDomain(motorcycle));
   }
 
-  public async readById(id: string) {
-    const validMongoId = /^[a-f\d]{24}$/i;
+  public async findById(id: string) {
     if (!validMongoId.test(id)) return false;
 
     const motorcycleById = await this.motorcycleODM.findById(id);
@@ -37,7 +38,6 @@ class MotorcycleService {
   }
 
   public async update(id: string, motorcycle: IMotorcycle) {
-    const validMongoId = /^[a-f\d]{24}$/i;
     if (!validMongoId.test(id)) return false;
 
     const motorcycleById = await this.motorcycleODM.findById(id);

@@ -16,7 +16,7 @@ export default class MotorcycleController {
   
   public async find() {
     try {
-      const Motorcycles = await this.service.read();
+      const Motorcycles = await this.service.findAll();
       return this.res.status(200).json(Motorcycles);
     } catch (error) {
       this.next(error);
@@ -26,7 +26,7 @@ export default class MotorcycleController {
   public async findOne() {
     try {
       const { id } = this.req.params;
-      const MotorById = await this.service.readById(id);
+      const MotorById = await this.service.findById(id);
 
       if (MotorById === false) return this.res.status(422).json({ message: 'Invalid mongo id' });
       if (MotorById === null) return this.res.status(404).json({ message: 'Motorcycle not found' });
@@ -39,7 +39,7 @@ export default class MotorcycleController {
 
   public async createOne() {
     try {
-      const newMotorcycle = await this.service.register(this.req.body);
+      const newMotorcycle = await this.service.create(this.req.body);
       return this.res.status(201).json(newMotorcycle);
     } catch (error) {
       this.next(error);
