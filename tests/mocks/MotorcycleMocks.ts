@@ -1,6 +1,4 @@
-import IMotorcycle from '../../src/Interfaces/IMotorcycle';
-
-export const motor: IMotorcycle = {
+export const motor = {
   model: 'Fusca',
   year: 1969,
   color: 'white',

@@ -2,6 +2,8 @@ import Car from '../Domains/Car';
 import CarODM from '../Models/CarModel';
 import ICar from '../Interfaces/ICar';
 
+const validMongoId = /^[a-f\d]{24}$/i;
+
 class CarService {
   carODM: CarODM;
 
@@ -27,7 +29,6 @@ class CarService {
   }
 
   public async findById(id: string) {
-    const validMongoId = /^[a-f\d]{24}$/i;
     if (!validMongoId.test(id)) return false;
 
     const carById = await this.carODM.findById(id);
@@ -37,7 +38,6 @@ class CarService {
   }
 
   public async update(id: string, car: ICar) {
-    const validMongoId = /^[a-f\d]{24}$/i;
     if (!validMongoId.test(id)) return false;
 
     const carById = await this.carODM.findById(id);
