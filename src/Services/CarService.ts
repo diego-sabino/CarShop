@@ -1,3 +1,4 @@
+import { notFound, invalidId } from '../utils/VehicleErrors';
 import Car from '../Domains/Car';
 import CarODM from '../Models/CarModel';
 import ICar from '../Interfaces/ICar';
@@ -17,10 +18,9 @@ class CarService {
   }
 
   public async create(car: ICar) {
-    if (car.status) {
-      return this.createCarDomain(await this.carODM.create(car));
-    }
-    return this.createCarDomain(await this.carODM.create({ ...car, status: false }));
+    return this.createCarDomain((car.status)
+      ? await this.carODM.create(car)
+      : await this.carODM.create({ ...car, status: false }));
   }
 
   public async findAll() {
@@ -29,23 +29,35 @@ class CarService {
   }
 
   public async findById(id: string) {
-    if (!validMongoId.test(id)) return false;
+    if (!validMongoId.test(id)) return invalidId;
 
     const carById = await this.carODM.findById(id);
-    if (!carById) return null;
+    if (!carById) return notFound('Car');
 
-    return this.createCarDomain(carById);
+    return { status: 200, message: this.createCarDomain(carById) };
   }
 
   public async update(id: string, car: ICar) {
-    if (!validMongoId.test(id)) return false;
+    if (!validMongoId.test(id)) return invalidId;
 
     const carById = await this.carODM.findById(id);
-    if (!carById) return null;
+    if (!carById) return notFound('Car');
 
     await this.carODM.update(id, car);
+    const updatedCar = { id, ...car };
+
+    return { status: 200, message: updatedCar };
+  }
+
+  public async delete(id: string) {
+    if (!validMongoId.test(id)) return invalidId;
     
-    return { id, ...car };
+    const carById = await this.carODM.findById(id);
+    if (!carById) return notFound('Car');
+
+    await this.carODM.delete(id);
+
+    return { status: 204, message: undefined };
   }
 }
 

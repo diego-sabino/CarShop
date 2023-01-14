@@ -26,4 +26,7 @@ export default abstract class AbstractODM<T> {
   public async update(id: string, vehicle: Partial<T>) {
     return this.model.findByIdAndUpdate(id, vehicle as UpdateQuery<T>, { new: true });
   }
+  public async delete(id: string) {
+    return this.model.findByIdAndDelete(id);
+  }
 }

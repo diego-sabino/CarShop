@@ -26,12 +26,9 @@ export default class CarController {
   public async findOne() {
     try {
       const { id } = this.req.params;
-      const carById = await this.service.findById(id);
+      const { status, message } = await this.service.findById(id);
 
-      if (carById === false) return this.res.status(422).json({ message: 'Invalid mongo id' });
-      if (carById === null) return this.res.status(404).json({ message: 'Car not found' });
-
-      return this.res.status(200).json(carById);
+      return this.res.status(status).json((status === 200) ? message : { message });
     } catch (error) {
       this.next(error);
     }
@@ -49,12 +46,20 @@ export default class CarController {
   public async updateOne() {
     try {
       const { id } = this.req.params;
-      const updatedCar = await this.service.update(id, this.req.body);
+      const { status, message } = await this.service.update(id, this.req.body);
 
-      if (updatedCar === null) return this.res.status(404).json({ message: 'Car not found' });
-      if (updatedCar === false) return this.res.status(422).json({ message: 'Invalid mongo id' });
+      return this.res.status(status).json((status === 200) ? message : { message });
+    } catch (error) {
+      this.next(error);
+    }
+  }
 
-      return this.res.status(200).json(updatedCar);
+  public async deleteOne() {
+    try {
+      const { id } = this.req.params;
+      const { status, message } = await this.service.delete(id);
+
+      return this.res.status(status).json({ message });
     } catch (error) {
       this.next(error);
     }
