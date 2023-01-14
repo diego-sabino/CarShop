@@ -1,100 +1,51 @@
 import ICar from '../Interfaces/ICar';
+import Vehicle from './Vehicle';
 
-export default class Car {
-  protected id: string | undefined;
-  protected model: string;
-  protected year: number;
-  protected color: string;
-  protected status: boolean | undefined;
-  protected buyValue: number;
+export default class Car extends Vehicle {
   private doorsQty: number;
   private seatsQty: number;
 
-  constructor(params: ICar) {
-    this.id = params.id;  
-    this.model = params.model;
-    this.year = params.year;
-    this.color = params.color;
-    this.status = params.status;
-    this.buyValue = params.buyValue;
-    this.doorsQty = params.doorsQty;
-    this.seatsQty = params.seatsQty;
-  }
-
-  public setId(id: string) {
-    this.id = id;
-  }
-
-  public getId() {
-    return this.id;
-  }
-
-  public setModel(model: string) {
-    this.model = model;
-  }
-
-  public setYear(year: number) {
-    this.year = year;
-  }
-
-  public getModel() {
-    return this.model;
-  }
-
-  public getYear() {
-    return this.year;
-  }
-
-  public setColor(color: string) {
-    this.color = color;
-  }
-
-  public getColor() {
-    return this.color;
-  }
-
-  public setStatus(status: boolean) {
-    this.status = status;
-  }
-
-  public getStatus() {
-    return this.status;
-  }
-
-  public setBuyValue(buyValue: number) {
-    this.buyValue = buyValue;
-  }
-
-  public getBuyValue() {
-    return this.buyValue;
-  }
-
-  public setDoorsQty(doorsQty: number) {
+  constructor({
+    id,
+    model,
+    year,
+    color,
+    buyValue,
+    doorsQty,
+    seatsQty,
+    status,
+  }: ICar) {
+    super({ id, model, year, color, status, buyValue });
     this.doorsQty = doorsQty;
-  }
-
-  public getDoorsQty() {
-    return this.doorsQty;
-  }
-
-  public setSeatsQty(seatsQty: number) {
     this.seatsQty = seatsQty;
   }
 
-  public getSeatsQty() {
+  public getDoorsQty(): number {
+    return this.doorsQty;
+  }
+
+  public getSeatsQty(): number {
     return this.seatsQty;
   }
 
-  public getCar() {
+  public setDoorsQty(doorsQty: number): void {
+    this.doorsQty = doorsQty;
+  }
+
+  public setSeatsQty(seatsQty: number): void {
+    this.seatsQty = seatsQty;
+  }
+
+  public toJSON(): ICar {
     return {
-      id: this.id,
-      model: this.model,
-      year: this.year,
-      color: this.color,
-      status: this.status,
-      buyValue: this.buyValue,
-      doorsQty: this.doorsQty,
-      seatsQty: this.seatsQty,
+      id: this.getId(),
+      model: this.getModel(),
+      year: this.getYear(),
+      color: this.getColor(),
+      status: this.getStatus(),
+      buyValue: this.getBuyValue(),
+      doorsQty: this.getDoorsQty(),
+      seatsQty: this.getSeatsQty(),
     };
   }
 }

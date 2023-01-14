@@ -1,10 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import CarService from '../Services/CarService';
-import CarModel from '../Models/CarModel';
 
-const carODM = new CarModel();
-
-class CarController {
+export default class CarController {
   private req: Request;
   private res: Response;
   private next: NextFunction;
@@ -14,7 +11,7 @@ class CarController {
     this.req = req;
     this.res = res;
     this.next = next;
-    this.service = new CarService(carODM);
+    this.service = new CarService();
   }
   
   public async find() {
@@ -63,5 +60,3 @@ class CarController {
     }
   }
 }
-
-export default CarController;

@@ -1,8 +1,13 @@
 import Car from '../Domains/Car';
-import ICar, { ICarODM } from '../Interfaces/ICar';
+import CarODM from '../Models/CarModel';
+import ICar from '../Interfaces/ICar';
 
 class CarService {
-  constructor(private carODM: ICarODM) {}
+  carODM: CarODM;
+
+  constructor() {
+    this.carODM = new CarODM();
+  }
 
   private createCarDomain(car: ICar | null): Car | null {
     if (car) return new Car(car);
@@ -11,13 +16,13 @@ class CarService {
 
   public async register(car: ICar) {
     if (car.status) {
-      return this.createCarDomain(await this.carODM.register(car));
+      return this.createCarDomain(await this.carODM.create(car));
     }
-    return this.createCarDomain(await this.carODM.register({ ...car, status: false }));
+    return this.createCarDomain(await this.carODM.create({ ...car, status: false }));
   }
 
   public async read() {
-    const carList = await this.carODM.read();
+    const carList = await this.carODM.findAll();
     return carList?.map((car) => this.createCarDomain(car));
   }
 
@@ -25,7 +30,7 @@ class CarService {
     const validMongoId = /^[a-f\d]{24}$/i;
     if (!validMongoId.test(id)) return false;
 
-    const carById = await this.carODM.readById(id);
+    const carById = await this.carODM.findById(id);
     if (!carById) return null;
 
     return this.createCarDomain(carById);
@@ -35,7 +40,7 @@ class CarService {
     const validMongoId = /^[a-f\d]{24}$/i;
     if (!validMongoId.test(id)) return false;
 
-    const carById = await this.carODM.readById(id);
+    const carById = await this.carODM.findById(id);
     if (!carById) return null;
 
     await this.carODM.update(id, car);
