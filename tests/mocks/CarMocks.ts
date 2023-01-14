@@ -16,7 +16,7 @@ export const carWithId = {
   year: 1969,
   color: 'white',
   status: true,
-  buyValue: 300,
+  buyValue: 3000,
   doorsQty: 2,
   seatsQty: 2,
 };

@@ -25,4 +25,9 @@ describe('Motorcycle services', function () {
     Sinon.stub(Model, 'create').resolves(motorWithId);
     expect(await motorcycleService.create(motor)).to.be.deep.equal(motorWithId);
   });
+
+  it('Update', async function () {
+    Sinon.stub(Model, 'findByIdAndUpdate').resolves(motor);
+    expect(await motorcycleService.update(motorWithId.id, motor)).to.be.deep.equal(motorWithId);
+  });
 });
