@@ -1,4 +1,4 @@
-# API de Gerenciamento de Concessionária de Veículos
+# CarShop API
 Esta é uma API construída com o objetivo de gerenciar uma concessionária de veículos, utilizando os princípios de Programação Orientada a Objetos (POO) e o banco de dados MongoDB através do framework Mongoose.
 
 ## Instalação
